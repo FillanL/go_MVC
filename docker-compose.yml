@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data
+    environment:
+      - REDIS_PASSWORD=redis
+      - REDIS_DB=0
+    restart: on-failure:3 
+
+  postgres:
+    image: postgres:14.2-alpine
+    restart: on-failure:3
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=abc
+      - POSTGRES_PASSWORD=abc
+      - POSTGRES_DB=abc
+    env_file:
+      - .env
+volumes:
+  postgres: ~
+  redis-data: ~
